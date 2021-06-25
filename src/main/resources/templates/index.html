@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="/main.css">
+</head>
+<body>
+
+<h1 th:if="${#vars['flash.message']}" classs="flash" th:text="${#vars['flash.message']}"></h1>
+<p>yoyo1</p>
+    <table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Image</th>
+        <th>edit</th>
+    </tr>
+    <tr th:each="image : ${images.content}">
+        <td th:text="${image.id}"></td>
+        <td th:text="${image.name}"></td>
+        <td><a th:href="@{'/images/'+ ${image.name} + '/raw'}" ><img class="thumbnail" th:src="@{'/images/'+ ${image.name} + '/raw'}" /> </a> </td>
+        <td>
+            <form action="#"  th:action="@{'/images/delete/'+ ${image.name} }" th:method="post">
+                <input type="submit" value="delete"/>
+            </form>
+        </td>
+    </tr>
+    </table>
+    <ul>
+        <li th:if="${prev}"><a  th:href="@{/(size=${prev.pageSize},page=${prev.pageNumber})">prev</a></li>
+        <li th:if="${next}"><a  th:href="@{/(size=${next.pageSize},page=${next.pageNumber})">next</a></li>
+
+    </ul>
+    <form action="/images" enctype="multipart/form-data" method="post">
+        <input type="file" name="file" />
+        <input type="submit" value="upload"/>
+
+    </form>
+</body>
+</html>
